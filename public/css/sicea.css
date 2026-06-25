@@ -1,0 +1,236 @@
+/* ═══════════════════════════════════════════════════════
+   SICEA — Línea Gráfica Institucional Carabineros de Chile
+   Paleta oficial: verde institucional + blanco
+═══════════════════════════════════════════════════════ */
+:root {
+    --sicea-verde:        #1d7d4d;
+    --sicea-verde-dark:   #155c38;
+    --sicea-verde-hover:  #104a2d;
+    --sicea-lima:         #afcc4a;
+    --sicea-dorado:       #ae9c3c;
+    --sicea-terracota:    #c47e4e;
+    --sicea-gris-texto:   #505050;
+    --sicea-gris-mid:     #8f8e8e;
+    --sicea-gris-light:   #c6c6c6;
+    --sicea-fondo:        #f3f3f3;
+    --sicea-fondo-alt:    #e2e2e4;
+}
+
+/* ─────────────────────────────────────────
+   Layout — Menú lateral
+───────────────────────────────────────── */
+.side-menu {
+    background-color: var(--sicea-verde-dark);
+    color: #fff;
+    min-height: 100vh;
+    padding: 0 12px;
+}
+
+.side-menu .nav-item.active .nav-link {
+    color: var(--sicea-lima);
+    font-weight: 600;
+}
+
+.side-menu .nav-link:hover {
+    color: var(--sicea-lima);
+    background-color: rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+}
+
+/* ─────────────────────────────────────────
+   Layout — Barra de navegación superior
+───────────────────────────────────────── */
+.main-navbar {
+    background-color: var(--sicea-verde);
+    border-bottom: 3px solid var(--sicea-lima);
+}
+
+.sicea-page-title {
+    font-size: .92rem;
+    letter-spacing: .3px;
+    line-height: 1.3;
+}
+
+/* ─────────────────────────────────────────
+   Tipografía institucional — Arial 14px
+───────────────────────────────────────── */
+html {
+    font-size: 14px;
+}
+
+body, input, select, textarea, button, table {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 14px;
+}
+
+/* ─────────────────────────────────────────
+   Fondo general
+───────────────────────────────────────── */
+body {
+    padding-bottom: 62px;
+    background-color: var(--sicea-fondo);
+    color: var(--sicea-gris-texto);
+}
+
+/* ─────────────────────────────────────────
+   Secciones del formulario institucional
+───────────────────────────────────────── */
+.form-section {
+    border: 1px solid var(--sicea-gris-light);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.section-header {
+    background-color: var(--sicea-verde);
+    color: #ffffff;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .6px;
+    padding: 7px 14px;
+    text-transform: uppercase;
+}
+
+.section-body {
+    background-color: #ffffff;
+    padding: 16px 14px 12px;
+}
+
+.section-body .form-label {
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--sicea-gris-texto);
+    margin-bottom: 3px;
+}
+
+.section-body .form-control,
+.section-body .form-select {
+    font-size: .87rem;
+    border-color: var(--sicea-gris-light);
+}
+
+.section-body .form-control:focus,
+.section-body .form-select:focus {
+    border-color: var(--sicea-verde);
+    box-shadow: 0 0 0 .2rem rgba(29, 125, 77, .2);
+}
+
+/* ─────────────────────────────────────────
+   Tarjeta solo-lectura (Secciones bloqueadas)
+───────────────────────────────────────── */
+.funcionario-card {
+    background-color: var(--sicea-fondo);
+    border: 1px dashed var(--sicea-gris-light);
+}
+
+.funcionario-label {
+    font-size: .72rem;
+    font-weight: 700;
+    color: var(--sicea-gris-mid);
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    margin-bottom: 2px;
+}
+
+.funcionario-value {
+    font-size: .88rem;
+    color: var(--sicea-gris-texto);
+}
+
+/* ─────────────────────────────────────────
+   Botones — overrides Bootstrap con paleta institucional
+───────────────────────────────────────── */
+.btn-primary {
+    --bs-btn-bg:                 var(--sicea-verde);
+    --bs-btn-border-color:       var(--sicea-verde);
+    --bs-btn-hover-bg:           var(--sicea-verde-dark);
+    --bs-btn-hover-border-color: var(--sicea-verde-dark);
+    --bs-btn-active-bg:          var(--sicea-verde-hover);
+    --bs-btn-active-border-color:var(--sicea-verde-hover);
+    --bs-btn-focus-shadow-rgb:   29, 125, 77;
+}
+
+.btn-success {
+    --bs-btn-bg:                 var(--sicea-verde);
+    --bs-btn-border-color:       var(--sicea-verde);
+    --bs-btn-hover-bg:           var(--sicea-verde-dark);
+    --bs-btn-hover-border-color: var(--sicea-verde-dark);
+    --bs-btn-active-bg:          var(--sicea-verde-hover);
+    --bs-btn-active-border-color:var(--sicea-verde-hover);
+    --bs-btn-focus-shadow-rgb:   29, 125, 77;
+}
+
+.btn-outline-primary {
+    --bs-btn-color:              var(--sicea-verde);
+    --bs-btn-border-color:       var(--sicea-verde);
+    --bs-btn-hover-bg:           var(--sicea-verde);
+    --bs-btn-hover-border-color: var(--sicea-verde);
+    --bs-btn-active-bg:          var(--sicea-verde-dark);
+    --bs-btn-focus-shadow-rgb:   29, 125, 77;
+}
+
+/* ─────────────────────────────────────────
+   Tabla — cabecera institucional
+───────────────────────────────────────── */
+.table-dark {
+    --bs-table-bg:           var(--sicea-verde);
+    --bs-table-border-color: var(--sicea-verde-dark);
+}
+
+/* ─────────────────────────────────────────
+   Badges
+───────────────────────────────────────── */
+.badge.bg-success {
+    background-color: var(--sicea-verde) !important;
+}
+
+.badge.bg-primary {
+    background-color: var(--sicea-verde) !important;
+}
+
+.badge.bg-secondary {
+    background-color: var(--sicea-gris-mid) !important;
+}
+
+/* Badge "Solo lectura" en cabeceras de sección */
+.section-header .badge.bg-secondary {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff;
+}
+
+/* ─────────────────────────────────────────
+   Paginación
+───────────────────────────────────────── */
+.pagination .page-link {
+    color: var(--sicea-verde);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--sicea-verde);
+    border-color:     var(--sicea-verde);
+}
+
+.pagination .page-link:focus {
+    box-shadow: 0 0 0 .2rem rgba(29, 125, 77, .25);
+}
+
+/* ─────────────────────────────────────────
+   Alertas
+───────────────────────────────────────── */
+.alert-success {
+    --bs-alert-color:        var(--sicea-verde-dark);
+    --bs-alert-bg:           #d6ece1;
+    --bs-alert-border-color: #b2d9c4;
+}
+
+/* ─────────────────────────────────────────
+   Footer
+───────────────────────────────────────── */
+footer.footer {
+    background-color: #ffffff !important;
+    border-top: 1px solid var(--sicea-gris-light) !important;
+}
+
+footer.footer p {
+    color: var(--sicea-gris-mid);
+}
