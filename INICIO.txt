@@ -1,0 +1,57 @@
+═══════════════════════════════════════════════════════════════
+  SICEA — INSTRUCCIONES DE INICIO
+  Sistema Institucional de Control de Evidencia Audiovisual
+  Carabineros de Chile | Portafolio de Proyectos 2026
+═══════════════════════════════════════════════════════════════
+
+CADA VEZ QUE VUELVAS A TRABAJAR EN EL PROYECTO:
+─────────────────────────────────────────────────
+
+  1. Abrir Herd
+     → Icono en la barra de menú (arriba a la derecha)
+       o desde Aplicaciones/Herd.app
+     → Verifica que el sitio "cisea" aparezca como activo
+
+  2. Iniciar MySQL (en la terminal)
+     → brew services start mysql
+
+  3. Abrir el proyecto en la terminal
+     → cd ~/Desktop/CISEA
+
+  4. Abrir el sistema en el navegador
+     → http://cisea.test/evidencias
+
+
+SI NECESITAS CORRER COMANDOS DE ARTISAN (migraciones, etc.):
+─────────────────────────────────────────────────────────────
+  Los atajos /tmp/php84 y /tmp/composer se borran al reiniciar
+  el Mac. Recréalos así (solo una vez por sesión):
+
+     ln -sf "/Users/carlosalarconlagos/Library/Application Support/Herd/bin/php84" /tmp/php84
+     ln -sf "/Users/carlosalarconlagos/Library/Application Support/Herd/bin/composer" /tmp/composer
+
+  Luego puedes usar:
+     /tmp/php84 artisan migrate
+     /tmp/php84 artisan migrate:fresh --seed
+     /tmp/php84 artisan optimize:clear
+
+
+SI ACTUALIZAS DESDE GITHUB (otro equipo o después de un push):
+───────────────────────────────────────────────────────────────
+     git pull origin main
+
+
+REPOSITORIO DEL PROYECTO:
+─────────────────────────
+  https://github.com/dcalarcon1999/CISEA
+
+
+USUARIOS DE PRUEBA (contraseña: sicea2026):
+────────────────────────────────────────────
+  c.alarcon@sicea.cl    → Carlos Alarcón Lagos  (Cabo 2do. / TIC)
+  operador@sicea.cl     → Jorge Pérez Muñoz     (Cabo 1ro.)
+  sip@sicea.cl          → Claudio Ramírez Vega  (Sargento 2do.)
+  jefatura@sicea.cl     → Pablo Morales Cisternas (Capitán)
+  auditor@sicea.cl      → Andrea Silva Rojas    (Suboficial Mayor)
+
+═══════════════════════════════════════════════════════════════
