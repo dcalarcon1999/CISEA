@@ -1,10 +1,10 @@
 ═══════════════════════════════════════════════════════════════
-  SICEA — INSTRUCCIONES DE INICIO
+  SICEA — INSTRUCCIONES DE INICIO Y CIERRE
   Sistema Institucional de Control de Evidencia Audiovisual
   Carabineros de Chile | Portafolio de Proyectos 2026
 ═══════════════════════════════════════════════════════════════
 
-CADA VEZ QUE VUELVAS A TRABAJAR EN EL PROYECTO:
+▶  ENCENDER — CADA VEZ QUE VUELVAS A TRABAJAR:
 ─────────────────────────────────────────────────
 
   1. Abrir Herd
@@ -20,6 +20,25 @@ CADA VEZ QUE VUELVAS A TRABAJAR EN EL PROYECTO:
 
   4. Abrir el sistema en el navegador
      → http://cisea.test/evidencias
+
+
+■  APAGAR — AL TERMINAR DE TRABAJAR (cuida la batería):
+────────────────────────────────────────────────────────
+  Hacer esto libera CPU, RAM y evita que los servicios
+  corran en segundo plano consumiendo energía.
+
+  1. Detener MySQL (en la terminal)
+     → brew services stop mysql
+
+  2. Cerrar Herd
+     → Clic en el icono de Herd en la barra de menú
+     → "Quit Herd"  (esto detiene el servidor PHP/nginx)
+
+  3. Cerrar la terminal y el navegador
+
+  NOTA: Si vas a pausar solo un rato (< 30 min) puedes
+  dejar Herd activo; consume poco. Para pausas largas
+  o dejar el Mac cargando, apaga todo lo anterior.
 
 
 SI NECESITAS CORRER COMANDOS DE ARTISAN (migraciones, etc.):

@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Evidencia;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -76,5 +78,11 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->call(EvidenciaSeeder::class);
+
+        // Inicializar contador compartido al máximo existente en evidencias
+        DB::table('contadores')->updateOrInsert(
+            ['nombre' => 'nro_orden'],
+            ['valor'  => Evidencia::max('nro_novedad') ?? 0]
+        );
     }
 }

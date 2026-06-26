@@ -8,16 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
     <link rel="stylesheet" href="{{ asset('css/sicea.css') }}?v={{ filemtime(public_path('css/sicea.css')) }}">
-    <title>SICEA — @yield('title', 'Panel de Evidencias')</title>
+    <title>SICEA — @yield('title', 'Panel de Control')</title>
 </head>
 <body>
 <div class="container-fluid">
     <div class="row">
 
         {{-- Menú lateral --}}
-        @php
-            $sidebarUser = auth()->user() ?? \App\Models\User::where('rol', 'operador')->first();
-        @endphp
+        @php $user = auth()->user(); @endphp
         <div class="col-md-3 col-lg-2 side-menu d-flex flex-column">
 
             {{-- Logo institucional --}}
@@ -44,47 +42,84 @@
                         <i class="fas fa-id-badge me-1"></i>Usuario en sesión
                     </p>
                     <p class="mb-0 fw-bold" style="font-size:.78rem; color:var(--sicea-fondo); line-height:1.3">
-                        {{ $sidebarUser?->nombre_display ?? $sidebarUser?->name ?? '—' }}
+                        {{ $user->nombre_display }}
                     </p>
-                    @if($sidebarUser?->grado)
+                    @if($user->grado)
                     <p class="mb-0" style="font-size:.68rem; color:var(--sicea-fondo); opacity:.8">
-                        {{ $sidebarUser->grado }}
+                        {{ $user->grado }}
                     </p>
                     @endif
-                    @if($sidebarUser?->cod_funcionario)
+                    @if($user->cod_funcionario)
                     <p class="mb-0" style="font-size:.65rem; color:var(--sicea-fondo); opacity:.65">
-                        Cód. {{ $sidebarUser->cod_funcionario }}
+                        Cód. {{ $user->cod_funcionario }}
                     </p>
                     @endif
-                    @if($sidebarUser?->unidad)
+                    @if($user->unidad)
                     <p class="mb-0 mt-1" style="font-size:.63rem; color:var(--sicea-fondo); opacity:.65; line-height:1.2">
-                        {{ $sidebarUser->unidad }}
+                        {{ $user->unidad }}
                     </p>
                     @endif
+                    {{-- Badge del rol --}}
+                    <span class="badge mt-2" style="font-size:.6rem; letter-spacing:.4px; background-color:var(--sicea-lima); color:var(--sicea-verde-dark)">
+                        {{ strtoupper(match($user->rol) {
+                            'operador' => 'Operador',
+                            'sip'      => 'Personal S.I.P.',
+                            'jefatura' => 'Jefatura',
+                            'auditor'  => 'Auditor T.I.C.',
+                            default    => $user->rol,
+                        }) }}
+                    </span>
                 </div>
             </div>
 
             <hr style="border-color: rgba(255,255,255,.15); margin: 4px 8px 6px;">
+
+            {{-- Navegación según rol --}}
             <ul class="list-unstyled flex-grow-1">
+
+                @if($user->rol === 'operador')
+                <li class="nav-item {{ request()->routeIs('constancias.*') ? 'active' : '' }}">
+                    <a href="{{ route('constancias.index') }}" class="nav-link text-white px-2 py-2">
+                        <i class="fas fa-book-open me-2"></i>Constancias de Monitoreo
+                    </a>
+                </li>
+
+                @elseif($user->rol === 'sip')
                 <li class="nav-item {{ request()->routeIs('evidencias.*') ? 'active' : '' }}">
                     <a href="{{ route('evidencias.index') }}" class="nav-link text-white px-2 py-2">
                         <i class="fas fa-folder-open me-2"></i>Módulo Evidencias
                     </a>
                 </li>
-                <hr style="border-color: rgba(255,255,255,.1); margin: 4px 0;">
-                <li class="nav-item {{ request()->routeIs('custodia.*') ? 'active' : '' }}">
-                    <a href="{{ route('custodia.index') }}" class="nav-link text-white px-2 py-2">
-                        <i class="fas fa-shield-alt me-2"></i>Cadena de Custodia
-                    </a>
-                </li>
-                <hr style="border-color: rgba(255,255,255,.1); margin: 4px 0;">
+
+                @elseif($user->rol === 'jefatura')
                 <li class="nav-item {{ request()->routeIs('reportes.*') ? 'active' : '' }}">
                     <a href="{{ route('reportes.index') }}" class="nav-link text-white px-2 py-2">
-                        <i class="fas fa-chart-line me-2"></i>Reportes e Hitos
+                        <i class="fas fa-chart-line me-2"></i>Reportes y Fiscalización
+                    </a>
+                </li>
+
+                @elseif($user->rol === 'auditor')
+                <li class="nav-item {{ request()->routeIs('reportes.*') ? 'active' : '' }}">
+                    <a href="{{ route('reportes.index') }}" class="nav-link text-white px-2 py-2">
+                        <i class="fas fa-chart-line me-2"></i>Reportes
                     </a>
                 </li>
                 <hr style="border-color: rgba(255,255,255,.1); margin: 4px 0;">
+                <li class="nav-item {{ request()->routeIs('auditoria.*') ? 'active' : '' }}">
+                    <a href="{{ route('auditoria.index') }}" class="nav-link text-white px-2 py-2">
+                        <i class="fas fa-shield-alt me-2"></i>Logs de Auditoría
+                    </a>
+                </li>
+                <hr style="border-color: rgba(255,255,255,.1); margin: 4px 0;">
+                <li class="nav-item {{ request()->routeIs('usuarios.*') ? 'active' : '' }}">
+                    <a href="#" class="nav-link text-white px-2 py-2 opacity-50" title="Disponible en Sprint 5">
+                        <i class="fas fa-users-cog me-2"></i>Gestión de Usuarios
+                    </a>
+                </li>
+                @endif
+
             </ul>
+
             <div class="pb-3">
                 <hr style="border-color: rgba(255,255,255,.15); margin: 0 0 8px;">
                 <form method="POST" action="{{ route('logout') }}">
@@ -99,7 +134,7 @@
         {{-- Contenido principal --}}
         <div class="col-md-9 col-lg-10 p-0">
             <nav class="main-navbar d-flex justify-content-between align-items-center px-4 py-3">
-                <h3 class="mb-0 text-white fw-semibold sicea-page-title">@yield('page-title', 'LIBRO DIGITAL DE REGISTRO DE NOVEDADES — IMÁGENES DE CÁMARAS DE SEGURIDAD')</h3>
+                <h3 class="mb-0 text-white fw-semibold sicea-page-title">@yield('page-title', 'LIBRO DIGITAL DE REGISTRO DE NOVEDADES')</h3>
                 <span class="small fw-semibold" style="color: var(--sicea-lima); letter-spacing:.3px">
                     <i class="fas fa-lock me-1"></i>Entorno Seguro
                 </span>
@@ -109,6 +144,20 @@
                 @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i class="fas fa-check-circle me-1"></i>{{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                @if(session('info'))
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <i class="fas fa-info-circle me-1"></i>{{ session('info') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-circle me-1"></i>{{ session('error') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif

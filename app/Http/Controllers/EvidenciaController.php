@@ -7,12 +7,13 @@ use App\Models\User;
 use App\Http\Requests\StoreEvidenciaRequest;
 use App\Http\Requests\UpdateEvidenciaRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EvidenciaController extends Controller
 {
     private function usuarioActual(): User
     {
-        return auth()->user() ?? User::where('rol', 'operador')->firstOrFail();
+        return auth()->user();
     }
 
     public function index(Request $request)
@@ -44,7 +45,7 @@ class EvidenciaController extends Controller
     public function create()
     {
         $funcionario  = $this->usuarioActual();
-        $nroSiguiente = (Evidencia::max('nro_novedad') ?? 0) + 1;
+        $nroSiguiente = (DB::table('contadores')->where('nombre', 'nro_orden')->value('valor') ?? 0) + 1;
         $ahoraDisplay = now()->format('d/m/Y H:i:s');
 
         return view('evidencias.create', compact('funcionario', 'nroSiguiente', 'ahoraDisplay'));
@@ -52,21 +53,38 @@ class EvidenciaController extends Controller
 
     public function store(StoreEvidenciaRequest $request)
     {
+        $validated   = $request->validated();
         $funcionario = $this->usuarioActual();
 
-        $evidencia = Evidencia::create(array_merge($request->validated(), [
-            'nro_novedad'      => (Evidencia::max('nro_novedad') ?? 0) + 1,
-            'fecha_novedad'    => now(),
-            'cod_funcionario'  => $funcionario->cod_funcionario,
-            'grado'            => $funcionario->grado,
-            'apellidos_nombre' => $funcionario->nombre_snapshot,
-            'unidad'           => $funcionario->unidad,
-            'operador_id'      => $funcionario->id,
-            'estado'           => 'pendiente',
-        ]));
+        $evidencia = DB::transaction(function () use ($validated, $funcionario) {
+            $contador = DB::table('contadores')
+                ->where('nombre', 'nro_orden')
+                ->lockForUpdate()
+                ->first();
 
-        return redirect()
-            ->route('evidencias.index')
+            $nroOrden = $contador->valor + 1;
+
+            DB::table('contadores')
+                ->where('nombre', 'nro_orden')
+                ->update(['valor' => $nroOrden]);
+
+            return Evidencia::create(array_merge($validated, [
+                'nro_novedad'      => $nroOrden,
+                'fecha_novedad'    => now(),
+                'cod_funcionario'  => $funcionario->cod_funcionario,
+                'grado'            => $funcionario->grado,
+                'apellidos_nombre' => $funcionario->nombre_snapshot,
+                'unidad'           => $funcionario->unidad,
+                'operador_id'      => $funcionario->id,
+                'estado'           => 'pendiente',
+            ]));
+        });
+
+        $destino = auth()->user()->hasRole('operador')
+            ? route('constancias.index')
+            : route('evidencias.index');
+
+        return redirect($destino)
             ->with('success', "Novedad N° {$evidencia->nro_novedad} registrada. Pendiente de completar Oficio de Entrega.");
     }
 
