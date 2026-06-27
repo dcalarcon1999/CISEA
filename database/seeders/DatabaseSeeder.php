@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
                 'rol'             => 'operador',
                 'cod_funcionario' => '017222-L',
                 'grado'           => 'CABO 2DO.',
-                'unidad'          => 'SECCIÓN MANTENIMIENTO T.I.C.',
+                'unidad'          => '1RA. COMISARIA SANTIAGO',
             ],
             [
                 'name'            => 'PÉREZ MUÑOZ JORGE ANDRÉS',
@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
                 'rol'             => 'operador',
                 'cod_funcionario' => '004821-K',
                 'grado'           => 'CABO 1RO.',
-                'unidad'          => '3RA COMISARÍA SANTIAGO CENTRO',
+                'unidad'          => '1RA. COMISARIA SANTIAGO',
             ],
             [
                 'name'            => 'RAMÍREZ VEGA CLAUDIO IGNACIO',
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
                 'rol'             => 'sip',
                 'cod_funcionario' => '007334-M',
                 'grado'           => 'SARGENTO 2DO.',
-                'unidad'          => 'TALLER TIC — DIRECCIÓN DE TELECOMUNICACIONES',
+                'unidad'          => '1RA. COMISARIA SANTIAGO',
             ],
             [
                 'name'            => 'MORALES CISTERNAS PABLO ESTEBAN',
@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
                 'rol'             => 'jefatura',
                 'cod_funcionario' => '001122-J',
                 'grado'           => 'CAPITÁN',
-                'unidad'          => '3RA COMISARÍA SANTIAGO CENTRO',
+                'unidad'          => '1RA. COMISARIA SANTIAGO',
             ],
             [
                 'name'            => 'SILVA ROJAS ANDREA MARCELA',
@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
                 'rol'             => 'auditor',
                 'cod_funcionario' => '009871-P',
                 'grado'           => 'SUBOFICIAL MAYOR',
-                'unidad'          => 'DIRECCIÓN DE TECNOLOGÍAS DE LA INFORMACIÓN Y LAS COMUNICACIONES',
+                'unidad'          => 'SECCIÓN MANTENIMIENTO T.I.C.',
             ],
         ];
 
