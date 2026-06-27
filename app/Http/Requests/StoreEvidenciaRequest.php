@@ -15,7 +15,18 @@ class StoreEvidenciaRequest extends FormRequest
             // Sección 3
             'estamento_solicitante'   => ['required', 'string', 'max:120'],
             'motivo'                  => ['required', 'in:CAUSA,RIT,RUC,DOCUMENTACIÓN ELECTRÓNICA'],
-            'motivo_nro'              => ['required', 'string', 'max:40'],
+            'motivo_nro'              => [
+                'required', 'string', 'max:40',
+                function ($attribute, $value, $fail) {
+                    $motivo = strtoupper($this->input('motivo'));
+                    if ($motivo === 'RUC' && !preg_match('/^\d{9}-[\dkK]$/', $value)) {
+                        $fail('Formato RUC inválido. Ejemplo correcto: 240012345-K');
+                    }
+                    if ($motivo === 'RIT' && !preg_match('/^[A-Z]-\d+-\d{4}$/', $value)) {
+                        $fail('Formato RIT inválido. Ejemplo correcto: O-45-2026');
+                    }
+                },
+            ],
             // Sección 4
             'grabacion_desde'         => ['required', 'date'],
             'grabacion_hasta'         => ['required', 'date', 'after_or_equal:grabacion_desde'],

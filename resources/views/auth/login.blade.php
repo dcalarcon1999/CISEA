@@ -11,11 +11,32 @@
     <style>
         body {
             min-height: 100vh;
-            background-color: var(--sicea-verde-dark);
+            background-image: url('{{ asset('images/fondo-login.png') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex;
             flex-direction: column;
             justify-content: center;
             padding-bottom: 0;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-color: rgba(10, 40, 25, 0.55);
+            z-index: 0;
+        }
+
+        .d-flex.flex-grow-1 {
+            position: relative;
+            z-index: 1;
+        }
+
+        footer.login-page-footer {
+            position: relative;
+            z-index: 1;
         }
 
         .login-card {
@@ -57,7 +78,7 @@
         }
 
         footer.login-page-footer {
-            background-color: var(--sicea-verde-hover);
+            background-color: rgba(10, 40, 25, 0.6);
             border-top: 1px solid rgba(255,255,255,.1);
             padding: 8px 0;
             text-align: center;

@@ -50,9 +50,9 @@ php artisan optimize:clear
 | Auditor TIC | Read-only access to immutable activity logs |
 
 **Key architectural constraints:**
-- `logs_actividad` table is append-only — no `update` or `delete` routes/controllers exist for it. Immutability is enforced at the controller level and via DB triggers.
+- `logs_actividad` table is append-only — no `update` or `delete` routes/controllers exist for it. Immutability is enforced at two levels: (1) controller level (no routes exist) and (2) MySQL triggers `logs_actividad_no_update` and `logs_actividad_no_delete` that raise SQLSTATE 45000 on any direct DB attempt.
 - RUC and RIT formats are validated via Regex in a `FormRequest` before touching the DB. RUC format: `\d{9}-[\dkK]`. RIT format: `[A-Z]-\d+-\d{4}`.
-- Authentication uses RUT + institutional password (not email). The `users` table has a `rut` column as the unique identifier.
+- Authentication uses `cod_funcionario` + institutional password (not email, not RUT). The `users` table has a `cod_funcionario` column as the unique login identifier.
 
 **Directory layout (Laravel MVC):**
 ```

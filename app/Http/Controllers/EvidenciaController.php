@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evidencia;
+use App\Models\LogActividad;
 use App\Models\User;
 use App\Http\Requests\StoreEvidenciaRequest;
 use App\Http\Requests\UpdateEvidenciaRequest;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -120,6 +122,27 @@ class EvidenciaController extends Controller
 
     public function show(Evidencia $evidencia)
     {
+        LogActividad::create([
+            'evidencia_id' => $evidencia->id,
+            'user_id'      => auth()->id(),
+            'accion'       => 'visualizacion',
+            'descripcion'  => "Visualización del registro N° {$evidencia->nro_novedad}.",
+            'ip_origen'    => request()->ip(),
+            'created_at'   => now(),
+        ]);
+
         return view('evidencias.show', compact('evidencia'));
+    }
+
+    public function acta(Evidencia $evidencia)
+    {
+        abort_unless($evidencia->estaEntregada(), 403, 'El acta solo está disponible para registros entregados.');
+
+        $pdf = Pdf::loadView('evidencias.acta_pdf', compact('evidencia'))
+                  ->setPaper('legal', 'portrait');
+
+        $filename = 'Acta_Entrega_N' . $evidencia->nro_novedad . '_' . now()->format('Ymd') . '.pdf';
+
+        return $pdf->download($filename);
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ConstanciaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EvidenciaController;
+use App\Http\Controllers\ReporteController;
 use Illuminate\Support\Facades\Route;
 
 // Auth (sin protección)
@@ -16,29 +17,26 @@ Route::middleware('auth')->group(function () {
     // Redirige al dashboard del rol correspondiente
     Route::get('/', [DashboardController::class, 'index'])->name('home');
 
-    // Operador/Guardia: módulo de constancias de monitoreo
-    Route::middleware('role:operador')->group(function () {
+    // Operador y SIP: módulo de constancias de monitoreo
+    Route::middleware('role:operador,sip')->group(function () {
         Route::get('/constancias', [ConstanciaController::class, 'index'])->name('constancias.index');
         Route::post('/constancias', [ConstanciaController::class, 'store'])->name('constancias.store');
     });
 
-    // Registro de novedad de extracción: operador y SIP pueden crear
-    Route::middleware('role:sip,operador')->group(function () {
-        Route::post('/evidencias', [EvidenciaController::class, 'store'])->name('evidencias.store');
-    });
-
-    // Personal SIP: gestión completa de evidencias (sin store ya definido arriba)
+    // Personal SIP: constancias + gestión completa de evidencias
     Route::middleware('role:sip')->group(function () {
+        Route::post('/evidencias',                  [EvidenciaController::class, 'store'])->name('evidencias.store');
         Route::get('/evidencias',                   [EvidenciaController::class, 'index'])->name('evidencias.index');
         Route::get('/evidencias/create',            [EvidenciaController::class, 'create'])->name('evidencias.create');
         Route::get('/evidencias/{evidencia}',       [EvidenciaController::class, 'show'])->name('evidencias.show');
+        Route::get('/evidencias/{evidencia}/acta', [EvidenciaController::class, 'acta'])->name('evidencias.acta');
         Route::get('/evidencias/{evidencia}/edit',  [EvidenciaController::class, 'edit'])->name('evidencias.edit');
         Route::put('/evidencias/{evidencia}',       [EvidenciaController::class, 'update'])->name('evidencias.update');
     });
 
     // Jefatura y Auditor TIC: reportes de control y trazabilidad
     Route::middleware('role:jefatura,auditor')->group(function () {
-        Route::get('/reportes', [DashboardController::class, 'reportes'])->name('reportes.index');
+        Route::get('/reportes', [ReporteController::class, 'index'])->name('reportes.index');
     });
 
     // Auditor TIC: logs inmutables y gestión de usuarios

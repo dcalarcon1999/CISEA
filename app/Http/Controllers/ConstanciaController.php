@@ -13,20 +13,28 @@ class ConstanciaController extends Controller
     public function index(Request $request)
     {
         $qConstancias = Constancia::query();
-        $qEvidencias  = Evidencia::query();
 
         if ($request->filled('fecha_desde')) {
             $qConstancias->whereDate('created_at', '>=', $request->fecha_desde);
-            $qEvidencias->whereDate('fecha_novedad', '>=', $request->fecha_desde);
         }
         if ($request->filled('fecha_hasta')) {
             $qConstancias->whereDate('created_at', '<=', $request->fecha_hasta);
-            $qEvidencias->whereDate('fecha_novedad', '<=', $request->fecha_hasta);
         }
 
-        $constancias  = $qConstancias->orderBy('nro_orden', 'desc')->paginate(20, ['*'], 'pc')->withQueryString();
-        $evidencias   = $qEvidencias->orderBy('nro_novedad', 'desc')->paginate(20, ['*'], 'pe')->withQueryString();
+        $constancias  = $qConstancias->orderBy('nro_orden', 'desc')->paginate(10, ['*'], 'pc')->withQueryString();
         $nroSiguiente = (DB::table('contadores')->where('nombre', 'nro_orden')->value('valor') ?? 0) + 1;
+
+        $evidencias = null;
+        if (auth()->user()->rol === 'sip') {
+            $qEvidencias = Evidencia::query();
+            if ($request->filled('fecha_desde')) {
+                $qEvidencias->whereDate('fecha_novedad', '>=', $request->fecha_desde);
+            }
+            if ($request->filled('fecha_hasta')) {
+                $qEvidencias->whereDate('fecha_novedad', '<=', $request->fecha_hasta);
+            }
+            $evidencias = $qEvidencias->orderBy('nro_novedad', 'desc')->paginate(10, ['*'], 'pe')->withQueryString();
+        }
 
         return view('operador.panel', compact('constancias', 'evidencias', 'nroSiguiente'));
     }

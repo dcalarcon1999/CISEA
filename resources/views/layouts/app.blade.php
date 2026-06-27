@@ -120,24 +120,23 @@
 
             </ul>
 
-            <div class="pb-3">
-                <hr style="border-color: rgba(255,255,255,.15); margin: 0 0 8px;">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="btn btn-link nav-link text-white px-2 py-2 w-100 text-start">
-                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
-                    </button>
-                </form>
-            </div>
         </div>
 
         {{-- Contenido principal --}}
         <div class="col-md-9 col-lg-10 p-0">
             <nav class="main-navbar d-flex justify-content-between align-items-center px-4 py-3">
                 <h3 class="mb-0 text-white fw-semibold sicea-page-title">@yield('page-title', 'LIBRO DIGITAL DE REGISTRO DE NOVEDADES')</h3>
-                <span class="small fw-semibold" style="color: var(--sicea-lima); letter-spacing:.3px">
-                    <i class="fas fa-lock me-1"></i>Entorno Seguro
-                </span>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="small fw-semibold" style="color: var(--sicea-lima); letter-spacing:.3px">
+                        <i class="fas fa-lock me-1"></i>Entorno Seguro
+                    </span>
+                    <form method="POST" action="{{ route('logout') }}" class="mb-0">
+                        @csrf
+                        <button type="submit" class="btn btn-sm btn-outline-light fw-semibold" style="font-size:.78rem;letter-spacing:.3px">
+                            <i class="fas fa-sign-out-alt me-1"></i>Cerrar Sesión
+                        </button>
+                    </form>
+                </div>
             </nav>
 
             <div class="container-fluid mt-4 px-4">

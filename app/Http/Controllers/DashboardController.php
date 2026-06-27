@@ -8,7 +8,7 @@ class DashboardController extends Controller
     {
         return match(auth()->user()->rol) {
             'operador' => redirect()->route('constancias.index'),
-            'sip'      => redirect()->route('evidencias.index'),
+            'sip'      => redirect()->route('constancias.index'),
             'jefatura' => redirect()->route('reportes.index'),
             'auditor'  => redirect()->route('auditoria.index'),
             default    => redirect()->route('login'),

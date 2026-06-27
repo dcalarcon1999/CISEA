@@ -126,7 +126,8 @@
     </div>
 </div>
 
-{{-- Tabla de novedades de extracción (evidencias) --}}
+@if($user->rol === 'sip')
+{{-- Tabla de novedades de extracción (evidencias) — solo Personal SIP --}}
 <div class="card border-0 shadow-sm mb-4">
     <div class="card-header py-2 d-flex justify-content-between align-items-center" style="background:var(--sicea-verde-dark)">
         <h6 class="mb-0 text-white fw-semibold" style="font-size:.82rem;letter-spacing:.4px">
@@ -160,6 +161,7 @@
                         <th class="px-3 py-2 fw-semibold" style="color:var(--sicea-verde-dark);white-space:nowrap">MOTIVO / N°</th>
                         <th class="px-3 py-2 fw-semibold" style="color:var(--sicea-verde-dark)">TIPO GRABACIÓN</th>
                         <th class="px-3 py-2 fw-semibold text-center" style="color:var(--sicea-verde-dark);white-space:nowrap">ESTADO</th>
+                        <th class="px-3 py-2 fw-semibold text-center" style="color:var(--sicea-verde-dark);white-space:nowrap">ACCIONES</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -186,6 +188,13 @@
                                 <span class="badge bg-warning text-dark" style="font-size:.65rem">PENDIENTE</span>
                             @endif
                         </td>
+                        <td class="px-3 py-2 text-center">
+                            <a href="{{ route('evidencias.show', $e) }}"
+                               class="btn btn-sm fw-semibold"
+                               style="background:var(--sicea-verde-dark);color:#fff;font-size:.72rem">
+                                <i class="fas fa-eye me-1"></i>Gestionar
+                            </a>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -201,6 +210,7 @@
         {{ $evidencias->links('pagination::bootstrap-5') }}
     </div>
 </div>
+@endif
 
 {{-- Modal: Ingresar Constancia --}}
 <div class="modal fade" id="modalConstancia" tabindex="-1" aria-labelledby="tituloModal" aria-hidden="true">
@@ -296,7 +306,8 @@
         </div>
     </div>
 </div>
-{{-- Modal: Ingresar Novedad de Extracción --}}
+@if($user->rol === 'sip')
+{{-- Modal: Ingresar Novedad de Extracción — solo Personal SIP --}}
 <div class="modal fade" id="modalNovedad" tabindex="-1" aria-labelledby="tituloModalNovedad" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -452,6 +463,7 @@
         </div>
     </div>
 </div>
+@endif
 @endsection
 
 @push('scripts')

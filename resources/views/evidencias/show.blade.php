@@ -8,18 +8,24 @@
 <div class="col-xl-9 col-lg-11">
 
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <a href="{{ route('evidencias.index') }}" class="btn btn-sm btn-outline-secondary">
-            <i class="fas fa-arrow-left me-1"></i> Volver a Bandeja Principal
+        <a href="{{ route('constancias.index') }}" class="btn btn-sm btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Volver al Panel
         </a>
-        @if($evidencia->estaEntregada())
-            <span class="badge bg-success px-3 py-2" style="font-size:.82rem">
-                <i class="fas fa-check-circle me-1"></i> Registro Cerrado — Entregado
-            </span>
-        @else
-            <span class="badge bg-warning text-dark px-3 py-2" style="font-size:.82rem">
-                <i class="fas fa-clock me-1"></i> Pendiente de Entrega
-            </span>
-        @endif
+        <div class="d-flex align-items-center gap-2">
+            @if($evidencia->estaEntregada())
+                <a href="{{ route('evidencias.acta', $evidencia) }}"
+                   class="btn btn-sm btn-success fw-semibold">
+                    <i class="fas fa-file-pdf me-1"></i> Descargar Acta de Entrega
+                </a>
+                <span class="badge bg-success px-3 py-2" style="font-size:.82rem">
+                    <i class="fas fa-check-circle me-1"></i> Registro Cerrado — Entregado
+                </span>
+            @else
+                <span class="badge bg-warning text-dark px-3 py-2" style="font-size:.82rem">
+                    <i class="fas fa-clock me-1"></i> Pendiente de Entrega
+                </span>
+            @endif
+        </div>
     </div>
 
     @if(session('success'))
