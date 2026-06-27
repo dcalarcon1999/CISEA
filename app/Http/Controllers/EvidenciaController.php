@@ -82,9 +82,7 @@ class EvidenciaController extends Controller
             ]));
         });
 
-        $destino = auth()->user()->hasRole('operador')
-            ? route('constancias.index')
-            : route('evidencias.index');
+        $destino = route('constancias.index');
 
         return redirect($destino)
             ->with('success', "Novedad N° {$evidencia->nro_novedad} registrada. Pendiente de completar Oficio de Entrega.");
