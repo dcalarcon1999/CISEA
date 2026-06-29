@@ -27,6 +27,10 @@ class DashboardController extends Controller
 
     public function auditoria()
     {
-        return view('auditoria.index');
+        $logs = \App\Models\LogActividad::with(['user', 'evidencia'])
+            ->orderByDesc('created_at')
+            ->paginate(20);
+
+        return view('auditoria.index', compact('logs'));
     }
 }

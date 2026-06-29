@@ -1,0 +1,244 @@
+GUION VIDEO DEMO SICEA — 10 MINUTOS (ESTILO TRAILER)
+======================================================
+Basado en: Hito 3 — Carlos Daniel Alarcon Lagos (28-06-2026)
+GitHub: https://github.com/dcalarcon1999/CISEA
+======================================================
+
+ESTRUCTURA GENERAL
+------------------
+Segmento                | Tiempo      | Descripcion
+------------------------|-------------|--------------------------------------------
+Apertura / Contexto     | 0:00–1:00   | El problema que resuelve
+Login y RBAC            | 1:00–2:00   | Autenticacion con cod_funcionario y roles
+Rol Operador            | 2:00–3:30   | Constancias de monitoreo + filtro fechas
+Rol SIP                 | 3:30–5:30   | Panel unificado, RUC/RIT, Acta PDF Legal
+Rol Jefatura / Auditor  | 5:30–7:30   | Reportes con 4 KPIs + logs inmutables
+Auditoria inmutable     | 7:30–8:30   | Logs append-only + triggers MySQL
+Cierre tecnico          | 8:30–10:00  | Arquitectura, no repudio, GitHub
+
+
+======================================================
+SEGMENTO 1 — APERTURA (0:00–1:00)
+======================================================
+
+NARRACION EN OFF:
+"Carabineros de Chile registra el acceso y extraccion de evidencia audiovisual en papel —
+el Anexo N° 1 de la Orden General N° 3192. Un libro fisico que no garantiza trazabilidad
+legal ni no repudio. SICEA digitaliza ese proceso: un sistema web con autenticacion por
+codigo de funcionario, cuatro roles diferenciados, y un log de actividad que ningun usuario
+puede modificar ni eliminar."
+
+EN PANTALLA:
+- Pantalla de login de SICEA, sin hacer nada todavia.
+- Musica instrumental suave de fondo (estilo trailer cinematico).
+- Subtitulo: "Sistema Institucional de Control de Evidencia Audiovisual"
+
+
+======================================================
+SEGMENTO 2 — LOGIN Y RBAC (1:00–2:00)
+======================================================
+
+ACCIONES:
+1. Mostrar la pantalla de login (formulario: Codigo de Funcionario + contrasena).
+2. Ingresar un cod_funcionario incorrecto → mostrar el mensaje de error de validacion.
+3. Ingresar credenciales de OPERADOR → mostrar que el sidebar solo tiene "Constancias".
+4. Hacer logout.
+5. Ingresar como SIP → mostrar que el sidebar incluye "Constancias" y "Extracciones".
+6. Hacer logout.
+7. Ingresar como Jefatura → mostrar que solo aparece "Reportes" en el sidebar.
+
+NARRACION:
+"El sistema NO usa RUT ni email. Cada funcionario se autentica con su codigo institucional.
+El menu lateral se adapta automaticamente al rol gracias al middleware CheckRole — un
+Operador no ve ni puede acceder al modulo de extracciones del SIP. El acceso no autorizado
+es bloqueado antes de tocar la base de datos."
+
+
+======================================================
+SEGMENTO 3 — ROL OPERADOR: CONSTANCIAS DE MONITOREO (2:00–3:30)
+======================================================
+
+ACCIONES:
+1. Logueado como Operador, ir a /constancias.
+2. Mostrar el listado paginado (10 por pagina) con numero correlativo, fecha, hora
+   y nombre del funcionario.
+3. Usar el filtro por rango de fechas y mostrar que los resultados se filtran.
+4. Registrar una nueva constancia de monitoreo: llenar descripcion del evento observado
+   (el sistema asigna automaticamente correlativo, fecha, hora y cod_funcionario desde sesion).
+5. Mostrar que aparece en la lista con numero correlativo asignado y que el registro
+   es INMUTABLE (no hay boton editar ni eliminar).
+
+NARRACION:
+"El Operador registra las constancias diarias del estado y uso de las camaras de seguridad.
+El sistema asigna automaticamente el correlativo compartido con las novedades de extraccion,
+manteniendo el orden cronologico del Libro de Novedades. El filtro por fechas facilita
+la busqueda historica — algo imposible con el libro fisico. Cada registro queda trazado
+en el log de auditoria de forma automatica."
+
+
+======================================================
+SEGMENTO 4 — ROL SIP: PANEL UNIFICADO Y ACTA PDF (3:30–5:30)
+======================================================
+
+ACCIONES:
+1. Hacer logout → login como SIP (cod_funcionario: SIP001).
+2. Mostrar el PANEL UNIFICADO: dos tablas — Constancias de Monitoreo + Novedades
+   de Extraccion de Imagenes.
+3. Crear nueva novedad de extraccion → mostrar el formulario estructurado en 4 secciones:
+   - Seccion 1: Identificacion automatica de la novedad (correlativo, fecha, hora)
+   - Seccion 2: Identificacion del funcionario (desde la sesion activa)
+   - Seccion 3: Estamento solicitante y motivo judicial (RUC / RIT / CAUSA / Doc. Electronica)
+   - Seccion 4: Identificacion de las grabaciones (tipo de equipo, rango horario)
+4. Seleccionar motivo RUC → ingresar formato INVALIDO (ej: 12345-X) → mostrar el error
+   de validacion del backend.
+5. Ingresar RUC valido (240012345-K) → guardar exitosamente.
+6. Abrir el detalle del registro → completar Seccion 5 (datos del oficio de entrega
+   y funcionario receptor del Ministerio Publico).
+7. Guardar → registro queda bloqueado (estado "Entregado") → descargar el Acta de
+   Entrega Digital en PDF (tamano Legal: 21,6 x 35,6 cm, generada con DomPDF).
+8. Mostrar el PDF: secciones completas, espacio para firmas y pie de pagina institucional.
+
+NARRACION:
+"El Personal SIP gestiona las extracciones de evidencia para el Ministerio Publico desde
+un panel unificado que concentra constancias y extracciones. El sistema valida estrictamente
+los formatos judiciales RUC y RIT en el servidor — si el formato es incorrecto, el registro
+no se guarda. Una vez registrada y completada la entrega, el sistema genera el Acta de
+Entrega Digital en formato PDF tamano Legal, lista para firmar y archivar."
+
+
+======================================================
+SEGMENTO 5 — ROL JEFATURA: REPORTES CON KPIs (5:30–7:00)
+======================================================
+
+ACCIONES:
+1. Logout → login como Jefatura (cod_funcionario: JEF001).
+2. Mostrar que NO aparecen opciones de registro en el sidebar — solo "Reportes".
+3. Ir a /reportes → mostrar los 4 KPIs en tarjetas:
+   - Total de extracciones registradas
+   - Registros pendientes de entrega
+   - Registros entregados al Ministerio Publico
+   - Constancias ingresadas en el mes en curso
+4. Usar la barra de FILTROS COMBINADOS: rango de fechas + estado + motivo judicial +
+   busqueda libre — aplicados simultaneamente a ambas tablas.
+5. Mostrar la paginacion independiente de cada tabla.
+
+NARRACION:
+"La Jefatura tiene acceso de solo lectura al modulo de reportes. Cuatro KPIs en tiempo
+real resumen el estado operativo: extracciones totales, pendientes, entregadas y constancias
+del mes. Los filtros combinados permiten busquedas precisas en segundos — lo que en el
+libro fisico toma horas. El Auditor TIC accede al mismo modulo mas el log de auditoria."
+
+
+======================================================
+SEGMENTO 6 — ROL AUDITOR TIC: LOGS INMUTABLES (7:00–8:30)
+======================================================
+
+ACCIONES:
+1. Logout → login como Auditor TIC (cod_funcionario: AUD001).
+2. Mostrar /reportes — acceso igual que Jefatura a los reportes consolidados.
+3. Ir a /auditoria → mostrar la tabla logs_actividad completa:
+   - Columnas: accion (visualizacion / extraccion / entrega), usuario, IP de origen,
+     timestamp del servidor, registro afectado.
+4. Demostrar que NO existe ningun boton de editar ni eliminar en la interfaz.
+5. EVIDENCIA TECNICA: mostrar en pantalla el codigo del middleware CheckRole o un
+   fragmento del trigger MySQL (logs_actividad_no_update / logs_actividad_no_delete).
+
+NARRACION:
+"El Auditor TIC accede al log inmutable de toda actividad del sistema. El EvidenciaObserver
+registra automaticamente cada visualizacion, extraccion y entrega — con usuario, IP y
+timestamp del servidor. La inmutabilidad opera en dos capas: no existen rutas de edicion
+en la aplicacion, y dos triggers MySQL rechazan cualquier intento de UPDATE o DELETE
+directamente sobre la base de datos. Esto garantiza el principio de no repudio exigido
+por la cadena de custodia legal."
+
+
+======================================================
+SEGMENTO 7 — CIERRE TECNICO (8:30–10:00)
+======================================================
+
+EN PANTALLA:
+- Diagrama de arquitectura MVC o del diagrama de contexto (desde el Hito 3).
+- Codigo del middleware CheckRole o fragmento de trigger MySQL como evidencia tecnica.
+- URL del repositorio: github.com/dcalarcon1999/CISEA
+
+NARRACION:
+"SICEA esta construido en Laravel 10 con PHP 8.4, Bootstrap 5 y MySQL / MariaDB.
+El RBAC esta implementado con middleware personalizado CheckRole. La generacion de PDF
+se realiza con la libreria DomPDF en formato Legal. La inmutabilidad de los logs se
+garantiza en doble capa: capa de controladores sin rutas de modificacion, y triggers
+MySQL que rechazan UPDATE y DELETE sobre la tabla logs_actividad. El codigo fuente esta
+disponible en GitHub. Un sistema que no solo registra — sino que certifica."
+
+
+======================================================
+CONSEJOS DE GRABACION
+======================================================
+
+HERRAMIENTAS RECOMENDADAS (gratis / nativas en Mac):
+- QuickTime Player  → grabar pantalla + microfono en macOS (sin instalar nada)
+- OBS Studio        → mas control: escenas, fade in/out, transiciones
+- CapCut / iMovie   → edicion: cortes, musica, subtitulos, fade entre escenas
+
+SETUP ANTES DE GRABAR:
+- Agrandar la fuente del navegador al 110–125% (Cmd + +) para que se lea bien.
+- Pre-abrir las pestanas en orden del guion para no perder tiempo.
+- Grabar cada segmento por separado → unirlos en CapCut/iMovie (mas facil de repetir).
+
+DATOS DE EJEMPLO PARA LA DEMO:
+  Rol Operador:
+    cod_funcionario: OP001
+    password:        password
+
+  Rol SIP:
+    cod_funcionario: SIP001
+    password:        password
+
+  Rol Jefatura:
+    cod_funcionario: JEF001
+    password:        password
+
+  Rol Auditor TIC:
+    cod_funcionario: AUD001
+    password:        password
+
+  RUC valido:   240012345-K
+  RUC invalido: 12345-X       (para mostrar la validacion)
+  RIT valido:   O-45-2026
+  RIT invalido: o45-2026      (minuscula para mostrar validacion)
+
+ORDEN DE GRABACION SUGERIDO:
+  Graba primero los segmentos mas complejos (SIP con PDF y formulario de 4 secciones)
+  cuando todavia estas "fresco". Deja la apertura y el cierre para el final.
+
+ESTILO TRAILER:
+  - Musica instrumental baja de fondo (YouTube Audio Library: genero "cinematic" o
+    "documentary" — sin copyright).
+  - Cortes rapidos entre acciones — sin tiempo muerto.
+  - Si usas narracion en off: graba el audio por separado y sincroniza en CapCut/iMovie.
+  - Transiciones de fade negro entre segmentos para separar roles.
+
+
+======================================================
+ESTRUCTURA SUGERIDA PARA CAPCUT
+======================================================
+
+PISTAS SUGERIDAS EN LA LINEA DE TIEMPO:
+  Pista 1 (Video principal): grabacion de pantalla del browser
+  Pista 2 (Audio narracion): off grabado aparte (iPhone o microfono)
+  Pista 3 (Musica): instrumental de fondo al 15–20% de volumen
+  Pista 4 (Texto): titulos de cada segmento en pantalla
+
+TITULOS DE SEGMENTO SUGERIDOS (texto sobre fade negro, 2–3 segundos):
+  "SICEA — Sistema Institucional de Control de Evidencia Audiovisual"
+  "El Problema: Registro Manual y Sin Trazabilidad Legal"
+  "Autenticacion por Rol — Codigo de Funcionario Institucional"
+  "Rol Operador — Constancias de Monitoreo"
+  "Rol Personal SIP — Extracciones y Acta PDF"
+  "Rol Jefatura — Reportes y KPIs"
+  "Rol Auditor TIC — Logs Inmutables"
+  "Arquitectura y No Repudio — Laravel 10 + MySQL"
+
+EFECTOS RECOMENDADOS:
+  - Fade to black entre cada segmento (0.5s).
+  - Zoom suave sobre los KPIs y el PDF para resaltar.
+  - Resaltar con un borde o flecha el mensaje de error de validacion RUC.

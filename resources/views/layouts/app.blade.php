@@ -112,7 +112,7 @@
                 </li>
                 <hr style="border-color: rgba(255,255,255,.1); margin: 4px 0;">
                 <li class="nav-item {{ request()->routeIs('usuarios.*') ? 'active' : '' }}">
-                    <a href="#" class="nav-link text-white px-2 py-2 opacity-50" title="Disponible en Sprint 5">
+                    <a href="{{ route('usuarios.index') }}" class="nav-link text-white px-2 py-2">
                         <i class="fas fa-users-cog me-2"></i>Gestión de Usuarios
                     </a>
                 </li>

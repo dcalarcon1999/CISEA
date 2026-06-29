@@ -5,6 +5,7 @@ use App\Http\Controllers\ConstanciaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EvidenciaController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Auth (sin protección)
@@ -42,5 +43,6 @@ Route::middleware('auth')->group(function () {
     // Auditor TIC: logs inmutables y gestión de usuarios
     Route::middleware('role:auditor')->group(function () {
         Route::get('/auditoria', [DashboardController::class, 'auditoria'])->name('auditoria.index');
+        Route::resource('usuarios', UserController::class)->except(['show']);
     });
 });
